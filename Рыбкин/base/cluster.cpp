@@ -30,7 +30,7 @@ TProgram TProgram::Creat(int cores)
 
 Cluster::Cluster(int per, int cyc, int cor) :number_finish_program(0),
 program_queue(0), number_refusal(0), number_refusal_queue(0), average_time(0), number_programs(0),
-number_cycle(cyc), number_cores(cor){};
+number_cycle(cyc), number_cores(cor) {};
 
 void Cluster::Start(double new_prog)
 {
@@ -57,18 +57,26 @@ void Cluster::Start(double new_prog)
 				it++;
 			}
 		}
-		srand(i*5);
-		flag = (rand()%10)/10;
-		if ((flag)<=new_prog)
+		int r = i;
+		while (true)
 		{
-			number_programs++;
-			tmp = tmp.Creat(number_cores);
-			if ((tmp.number_cores > number_cores)) 
-				number_refusal++;
-			else if (queue.IsFull())
-				number_refusal_queue++;
+			r = r * 10 + r;
+			srand(r++);
+			flag = rand() % 10;
+			flag = flag / 10;
+			if ((flag) <= new_prog)
+			{
+				number_programs++;
+				tmp = tmp.Creat(number_cores);
+				if ((tmp.number_cores > number_cores))
+					number_refusal++;
+				else if (queue.IsFull())
+					number_refusal_queue++;
+				else
+					queue.Push(tmp);
+			}
 			else
-				queue.Push(tmp);
+				break;
 		}
 		while (!queue.IsEmpty() && (free_cores >= queue.GetFirstEl().number_cores))
 		{
