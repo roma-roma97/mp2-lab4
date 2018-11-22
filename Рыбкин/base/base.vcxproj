@@ -81,9 +81,11 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="SamplePostfix.cpp" />
+    <ClCompile Include="cluster.cpp" />
+    <ClCompile Include="SampleCluster.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="cluster.h" />
     <ClInclude Include="queue.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

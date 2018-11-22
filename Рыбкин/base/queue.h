@@ -23,6 +23,8 @@ public:
 	bool IsFull();
 	ValType Pop();
 	void Push(const ValType &TMP);
+	ValType GetFirstEl();
+	int GetCount();
 };
 
 template <class ValType> TQueue<ValType>::TQueue(int _size=100)
@@ -73,7 +75,7 @@ template <class ValType> TQueue<ValType> &TQueue<ValType>::operator=(const TQueu
 
 template <class ValType> bool TQueue<ValType>::IsEmpty()
 {
-	return !count;
+	return count==0;
 }
 
 template <class ValType> bool TQueue<ValType>::IsFull()
@@ -83,10 +85,12 @@ template <class ValType> bool TQueue<ValType>::IsFull()
 
 template <class ValType> ValType TQueue<ValType>::Pop()
 {
-	if(count==0)
-		throw("there are no items")
+	if (count == 0)
+		throw("there are no items");
 	count--;
-	return mem[(begin++) % size];
+	//int tmp = begin;
+	begin = (begin + 1) % size;
+	return mem[begin];
 }
 
 template <class ValType> void TQueue<ValType>::Push(const ValType &TMP)
@@ -95,8 +99,19 @@ template <class ValType> void TQueue<ValType>::Push(const ValType &TMP)
 		throw ("full queue");
 	count++;
 	mem[end] = TMP;
-	end = (end++) % size;
+	end = (end+1) % size;
 }
 
+template <class ValType> ValType TQueue<ValType>::GetFirstEl()
+{
+	/*if (IsEmpty())
+		throw("there are no items");*/
+	return mem[(begin+1)%size];
+}
+
+template <class ValType> int TQueue<ValType>::GetCount()
+{
+	return count;
+}
 
 #endif
